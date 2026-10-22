@@ -27,7 +27,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lvgl.h"
+#include "lv_port_disp.h"
+#include "lvgl_demo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,6 +99,14 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   IsrUserInit();
+
+  /* LVGL init: tick source = FreeRTOS SysTick (1 ms) */
+  lv_init();
+  lv_tick_set_cb(osKernelGetTickCount);
+
+  /* display port + simple demo UI */
+  lv_port_disp_init();
+  lvgl_demo_init();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -196,12 +206,12 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  /* 时钟/外设初始化失败会停在这里。注意此�?? MX_GPIO_Init() 还没执行�??
-     �??以直接操作寄存器�?? PC13 快闪，用来区分两种故障：
-       快闪   = 程序卡在 Error_Handler（最常见：外部晶振不�?? 24MHz，HSE 起不来）
-       常亮或全�?? = 不在这里，往 BOOT0、下载�?�LED 引脚方向�?? */
+  /* 时钟/外设初始化失败会停在这里。注意此�??? MX_GPIO_Init() 还没执行�???
+     �???以直接操作寄存器�??? PC13 快闪，用来区分两种故障：
+       快闪   = 程序卡在 Error_Handler（最常见：外部晶振不�??? 24MHz，HSE 起不来）
+       常亮或全�??? = 不在这里，往 BOOT0、下载�?�LED 引脚方向�??? */
   RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;                       /* 使能 GPIOC 时钟 */
-  GPIOC->MODER  = (GPIOC->MODER & ~(3UL << (13UL * 2UL)))    /* �?? PC13 模式�?? */
+  GPIOC->MODER  = (GPIOC->MODER & ~(3UL << (13UL * 2UL)))    /* �??? PC13 模式�??? */
                 | (1UL << (13UL * 2UL));                     /* PC13 = 通用输出 */
   for (;;)
   {
