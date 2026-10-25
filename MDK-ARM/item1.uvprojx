@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../BSP/inc;../ThirdParty/lvgl/lvgl;../ThirdParty/lvgl</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../BSP/inc;../ThirdParty/lvgl/lvgl;../ThirdParty/lvgl;../ThirdParty/lvgl/lvgl/examples/porting;..\APP\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1561,14 +1561,9 @@
               <FilePath>..\BSP\ISR.c</FilePath>
             </File>
             <File>
-              <FileName>lv_port_disp.c</FileName>
+              <FileName>led_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\lv_port_disp.c</FilePath>
-            </File>
-            <File>
-              <FileName>lvgl_demo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\lvgl_demo.c</FilePath>
+              <FilePath>..\BSP\led_port.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1579,6 +1574,21 @@
               <FileName>lv_init.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\ThirdParty\lvgl\lvgl\src\lv_init.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ThirdParty/LVGL/porting</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_port_disp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ThirdParty\lvgl\lvgl\examples\porting\lv_port_disp.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_port_indev.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ThirdParty\lvgl\lvgl\examples\porting\lv_port_indev.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3609,6 +3619,21 @@
               <FileName>lv_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\ThirdParty\lvgl\lvgl\src\widgets\win\lv_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>APP</GroupName>
+          <Files>
+            <File>
+              <FileName>schedule.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\schedule.c</FilePath>
+            </File>
+            <File>
+              <FileName>lvgl_demo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\lvgl_demo.c</FilePath>
             </File>
           </Files>
         </Group>

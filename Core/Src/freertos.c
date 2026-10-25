@@ -147,7 +147,7 @@ void AppTaskcb(void *argument)
   /* Infinite loop */
   for(;;)
   {
-		UserEvPoll();
+	  user_poll();
     osDelay(1000);
   }
   /* USER CODE END AppTaskcb */

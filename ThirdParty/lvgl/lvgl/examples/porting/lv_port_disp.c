@@ -9,9 +9,11 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "lv_port_disp_template.h"
+#include "lv_port_disp.h"
 #include <stdbool.h>
-
+#include "main.h"
+#include "spi.h"
+#include "lcd.h"
 /*********************
  *      DEFINES
  *********************/

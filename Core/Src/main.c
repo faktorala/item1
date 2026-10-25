@@ -29,7 +29,9 @@
 /* USER CODE BEGIN Includes */
 #include "lvgl.h"
 #include "lv_port_disp.h"
+#include "lv_port_indev.h"
 #include "lvgl_demo.h"
+#include "schedule.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,6 +99,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI1_Init();
   MX_TIM1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   IsrUserInit();
 
@@ -106,6 +109,7 @@ int main(void)
 
   /* display port + simple demo UI */
   lv_port_disp_init();
+  lv_port_indev_init();
   lvgl_demo_init();
   /* USER CODE END 2 */
 
@@ -188,7 +192,9 @@ void SystemClock_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-
+  if(htim->Instance == TIM2) {
+    sched_poll();
+  }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM4) {
     HAL_IncTick();
@@ -205,21 +211,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  /* 时钟/外设初始化失败会停在这里。注意此�??? MX_GPIO_Init() 还没执行�???
-     �???以直接操作寄存器�??? PC13 快闪，用来区分两种故障：
-       快闪   = 程序卡在 Error_Handler（最常见：外部晶振不�??? 24MHz，HSE 起不来）
-       常亮或全�??? = 不在这里，往 BOOT0、下载�?�LED 引脚方向�??? */
-  RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;                       /* 使能 GPIOC 时钟 */
-  GPIOC->MODER  = (GPIOC->MODER & ~(3UL << (13UL * 2UL)))    /* �??? PC13 模式�??? */
-                | (1UL << (13UL * 2UL));                     /* PC13 = 通用输出 */
-  for (;;)
-  {
-    GPIOC->ODR ^= (1UL << 13UL);                             /* 翻转 PC13 */
-    for (volatile uint32_t i = 0U; i < 500000U; i++)
-    {
-    }
-  }
+  
   /* USER CODE END Error_Handler_Debug */
 }
 
