@@ -153,6 +153,14 @@ void lv_port_indev_init(void)
     // lv_indev_set_button_points(indev_button, btn_points);
 }
 
+/* 临时打开/关闭 keypad 的 LVGL 事件处理 */
+void lv_port_indev_set_enabled(bool en)
+{
+    if(indev_keypad == NULL) return;
+
+    lv_indev_set_group(indev_keypad, en ? lv_group_get_default() : NULL);
+}
+
 /**********************
  *   STATIC FUNCTIONS
  **********************/

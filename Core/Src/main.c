@@ -20,6 +20,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "dma.h"
+#include "rtc.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -32,6 +33,7 @@
 #include "lv_port_indev.h"
 #include "lvgl_demo.h"
 #include "schedule.h"
+#include "custom.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,7 +54,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+/* GUI Guider 的界面对象集合（gui_guider.h �? extern 声明�? */
+gg_ui_t guider_ui;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,6 +103,7 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
   IsrUserInit();
 
@@ -107,10 +111,11 @@ int main(void)
   lv_init();
   lv_tick_set_cb(osKernelGetTickCount);
 
-  /* display port + simple demo UI */
+  /* display port + input device + GUI Guider UI */
   lv_port_disp_init();
   lv_port_indev_init();
-  lvgl_demo_init();
+  // lvgl_demo_init();
+  custom_init(&guider_ui);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -149,8 +154,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 12;
