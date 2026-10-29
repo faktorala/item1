@@ -17,6 +17,7 @@
 #include "custom.h"
 #include "rtc_port.h"
 #include "game_2048.h"
+#include "lv_port_indev.h"
 
 /*********************
  *      DEFINES
@@ -33,6 +34,9 @@ static void screen_loaded_cb(lv_event_t * e);
 static void group_keep_screen(lv_obj_t * scr);
 static void group_add_focusable(lv_obj_t * parent);
 static void focus_first_on_screen(lv_obj_t * scr);
+static void kb_focus_cb(lv_event_t * e);
+static void kb_ready_cb(lv_event_t * e);
+static void kb_cancel_cb(lv_event_t * e);
 
 /**********************
  *  STATIC VARIABLES
@@ -101,13 +105,67 @@ static void focus_first_on_screen(lv_obj_t * scr)
  */
 static void screen_loaded_cb(lv_event_t * e)
 {
+    gg_ui_t * ui = (gg_ui_t *)lv_event_get_user_data(e);
+
     if(lv_event_get_code(e) != LV_EVENT_SCREEN_LOADED) return;
 
     lv_obj_t * scr = lv_event_get_target(e);
 
     group_keep_screen(scr);
     group_add_focusable(scr);
-    focus_first_on_screen(scr);
+
+    if((ui != NULL) && (scr == ui->screen_3.screen)) {
+        /* 没有触摸屏：进入 screen_3 就直接弹出软键盘并绑定文本框 */
+        lv_obj_remove_flag(ui->screen_3.keyboard_1, LV_OBJ_FLAG_HIDDEN);
+        lv_keyboard_set_textarea(ui->screen_3.keyboard_1, ui->screen_3.textarea_1);
+        lv_group_focus_obj(ui->screen_3.keyboard_1);
+        lv_port_indev_set_keyboard_mode(true);
+    }
+    else {
+        lv_port_indev_set_keyboard_mode(false);
+        focus_first_on_screen(scr);
+    }
+}
+
+/* 软键盘获得/失去焦点时切换 KEY1/KEY2 的映射 */
+static void kb_focus_cb(lv_event_t * e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+
+    if(code == LV_EVENT_FOCUSED) {
+        lv_port_indev_set_keyboard_mode(true);
+    }
+    else if(code == LV_EVENT_DEFOCUSED) {
+        lv_port_indev_set_keyboard_mode(false);
+    }
+}
+
+/* 软键盘上的 OK 键：键盘已被生成的代码隐藏，这里把焦点交回按钮 */
+static void kb_ready_cb(lv_event_t * e)
+{
+    gg_ui_t * ui = (gg_ui_t *)lv_event_get_user_data(e);
+
+    if(lv_event_get_code(e) != LV_EVENT_READY) return;
+
+    lv_port_indev_set_keyboard_mode(false);
+
+    lv_group_t * g = lv_group_get_default();
+    if((g != NULL) && (ui != NULL)) {
+        lv_group_focus_obj(ui->screen_3.container_2_button_1);
+    }
+}
+
+/* KEY4(ESC)：收起键盘并返回 screen_2，复用 perv 按钮原来的返回事件 */
+static void kb_cancel_cb(lv_event_t * e)
+{
+    gg_ui_t * ui = (gg_ui_t *)lv_event_get_user_data(e);
+
+    if(lv_event_get_code(e) != LV_EVENT_CANCEL) return;
+    if(ui == NULL) return;
+
+    lv_port_indev_set_keyboard_mode(false);
+    lv_obj_add_flag(ui->screen_3.keyboard_1, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_send_event(ui->screen_3.container_2_button_1, LV_EVENT_RELEASED, NULL);
 }
 
 /**
@@ -130,9 +188,20 @@ void custom_init(gg_ui_t *ui)
         setup_screen_2(ui);
     }
 
-    lv_obj_add_event_cb(ui->screen.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, NULL);
-    lv_obj_add_event_cb(ui->screen_1.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, NULL);
-    lv_obj_add_event_cb(ui->screen_2.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, NULL);
+    /* screen_3 提前创建，才能给软键盘挂焦点/OK/ESC 回调 */
+    if(ui->screen_3.screen == NULL) {
+        setup_screen_3(ui);
+    }
+
+    lv_obj_add_event_cb(ui->screen.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, ui);
+    lv_obj_add_event_cb(ui->screen_1.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, ui);
+    lv_obj_add_event_cb(ui->screen_2.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, ui);
+    lv_obj_add_event_cb(ui->screen_3.screen, screen_loaded_cb, LV_EVENT_SCREEN_LOADED, ui);
+
+    /* 软键盘：焦点切换时改键值映射；OK 把焦点交回按钮；ESC 返回 screen_2 */
+    lv_obj_add_event_cb(ui->screen_3.keyboard_1, kb_focus_cb, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_3.keyboard_1, kb_ready_cb, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_3.keyboard_1, kb_cancel_cb, LV_EVENT_ALL, ui);
 
     /* 启动时 screen_1 的控件已经自动进了默认 group，先清掉 */
     group_keep_screen(ui->screen.screen);

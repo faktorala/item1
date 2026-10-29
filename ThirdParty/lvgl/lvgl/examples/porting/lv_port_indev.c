@@ -51,6 +51,9 @@ lv_indev_t * indev_keypad;
 // static int32_t encoder_diff;
 // static lv_indev_state_t encoder_state;
 
+/* 软键盘模式：KEY1/KEY2 变成左右方向键 */
+static bool s_keyboard_mode = false;
+
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
@@ -159,6 +162,12 @@ void lv_port_indev_set_enabled(bool en)
     if(indev_keypad == NULL) return;
 
     lv_indev_set_group(indev_keypad, en ? lv_group_get_default() : NULL);
+}
+
+/* 软键盘模式开关 */
+void lv_port_indev_set_keyboard_mode(bool en)
+{
+    s_keyboard_mode = en;
 }
 
 /**********************
@@ -279,10 +288,10 @@ static void keypad_read(lv_indev_t * indev_drv, lv_indev_data_t * data)
         /*把物理按键号翻译成 LVGL 的控制键*/
         switch(act_key) {
             case 1:
-                act_key = LV_KEY_NEXT;
+                act_key = s_keyboard_mode ? LV_KEY_LEFT : LV_KEY_NEXT;
                 break;
             case 2:
-                act_key = LV_KEY_PREV;
+                act_key = s_keyboard_mode ? LV_KEY_RIGHT : LV_KEY_PREV;
                 break;
             case 3:
                 act_key = LV_KEY_ENTER;

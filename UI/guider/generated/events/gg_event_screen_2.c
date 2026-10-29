@@ -17,7 +17,7 @@
  *
  * Tool            : GUI Guider
  * Version         : 2.0.1
- * Generated on    : 2026/10/26
+ * Generated on    : 2026/10/29
  * ------------------------------------------------------------------------------
  */
 
@@ -49,7 +49,33 @@ static void button_1_copy_event_handler(lv_event_t * e)
     }
 }
 
+static void button_3_event_handler(lv_event_t * e)
+{
+    gg_ui_t * ui = lv_event_get_user_data(e);
+
+    lv_event_code_t code = lv_event_get_code(e);
+
+    switch(code) {
+        case LV_EVENT_RELEASED: {
+            gg_screen_load_cfg_t cfg = {
+                .scr       = &ui->screen_3.screen,
+                .setup_fn  = setup_screen_3,
+                .anim_type = LV_SCREEN_LOAD_ANIM_OVER_LEFT,
+                .time      = 100,
+                .delay     = 0,
+                .auto_del  = false,
+            };
+            gg_load_screen_animation(ui, &cfg);
+
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 void gg_event_init_screen_2(gg_ui_t * ui)
 {
     lv_obj_add_event_cb(ui->screen_2.button_1_copy, button_1_copy_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_2.button_3, button_3_event_handler, LV_EVENT_ALL, ui);
 }

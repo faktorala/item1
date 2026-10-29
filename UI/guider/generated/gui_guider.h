@@ -17,7 +17,7 @@
  *
  * Tool            : GUI Guider
  * Version         : 2.0.1
- * Generated on    : 2026/10/26
+ * Generated on    : 2026/10/29
  * ------------------------------------------------------------------------------
  */
 
@@ -67,6 +67,8 @@ typedef struct {
 
 typedef struct {
     lv_obj_t * screen;
+    lv_obj_t * button_3;
+    lv_obj_t * button_3_button_3_label;
     lv_obj_t * button_1_copy;
     lv_obj_t * button_1_copy_button_1_label;
     lv_obj_t * button_1;
@@ -76,12 +78,26 @@ typedef struct {
 } gg_screen_2_t;
 
 typedef struct {
+    lv_obj_t * screen;
+    lv_obj_t * keyboard_1;
+    lv_obj_t * textarea_1;
+    lv_obj_t * container_1;
+    lv_obj_t * container_1_label_1;
+    lv_obj_t * container_2;
+    lv_obj_t * container_2_button_1;
+    lv_obj_t * button_1_button_1_label;
+    lv_obj_t * container_2_button_2;
+    lv_obj_t * button_2_button_2_label;
+} gg_screen_3_t;
+
+typedef struct {
     gg_layer_sys_t layer_sys;
     gg_layer_top_t layer_top;
     gg_layer_bottom_t layer_bottom;
     gg_screen_t screen;
     gg_screen_1_t screen_1;
     gg_screen_2_t screen_2;
+    gg_screen_3_t screen_3;
 } gg_ui_t;
 
 typedef struct {
@@ -101,6 +117,7 @@ void setup_layer_bottom(gg_ui_t * ui);
 void setup_screen(gg_ui_t * ui);
 void setup_screen_1(gg_ui_t * ui);
 void setup_screen_2(gg_ui_t * ui);
+void setup_screen_3(gg_ui_t * ui);
 
 #ifdef __cplusplus
 }

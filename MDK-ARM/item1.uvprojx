@@ -55,7 +55,7 @@
           <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath></ListingPath>
+          <ListingPath>..\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -3897,6 +3897,16 @@
               <FileName>custom.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\UI\guider\custom\custom.c</FilePath>
+            </File>
+            <File>
+              <FileName>gg_event_screen_3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UI\guider\generated\events\gg_event_screen_3.c</FilePath>
+            </File>
+            <File>
+              <FileName>gg_screen_3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UI\guider\generated\screens\gg_screen_3.c</FilePath>
             </File>
           </Files>
         </Group>

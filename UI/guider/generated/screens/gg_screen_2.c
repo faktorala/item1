@@ -17,7 +17,7 @@
  *
  * Tool            : GUI Guider
  * Version         : 2.0.1
- * Generated on    : 2026/10/26
+ * Generated on    : 2026/10/29
  * ------------------------------------------------------------------------------
  */
 
@@ -56,11 +56,11 @@ void setup_screen_2(gg_ui_t * ui)
 
     // Create button: ui->screen_2.button_1
     ui->screen_2.button_1 = lv_button_create(ui->screen_2.screen);
-    lv_obj_set_width(ui->screen_2.button_1, 114);
-    lv_obj_set_height(ui->screen_2.button_1, 43);
+    lv_obj_set_width(ui->screen_2.button_1, 57);
+    lv_obj_set_height(ui->screen_2.button_1, 36);
     lv_obj_set_align(ui->screen_2.button_1, LV_ALIGN_TOP_LEFT);
     lv_obj_set_x(ui->screen_2.button_1, 7);
-    lv_obj_set_y(ui->screen_2.button_1, 54);
+    lv_obj_set_y(ui->screen_2.button_1, 58);
 
     // Create label: ui->screen_2.button_1_button_1_label
     ui->screen_2.button_1_button_1_label = lv_label_create(ui->screen_2.button_1);
@@ -73,11 +73,11 @@ void setup_screen_2(gg_ui_t * ui)
 
     // Create button: ui->screen_2.button_1_copy
     ui->screen_2.button_1_copy = lv_button_create(ui->screen_2.screen);
-    lv_obj_set_width(ui->screen_2.button_1_copy, 114);
-    lv_obj_set_height(ui->screen_2.button_1_copy, 43);
+    lv_obj_set_width(ui->screen_2.button_1_copy, 57);
+    lv_obj_set_height(ui->screen_2.button_1_copy, 36);
     lv_obj_set_align(ui->screen_2.button_1_copy, LV_ALIGN_TOP_LEFT);
-    lv_obj_set_x(ui->screen_2.button_1_copy, 7);
-    lv_obj_set_y(ui->screen_2.button_1_copy, 105);
+    lv_obj_set_x(ui->screen_2.button_1_copy, 66);
+    lv_obj_set_y(ui->screen_2.button_1_copy, 58);
 
     // Create label: ui->screen_2.button_1_copy_button_1_label
     ui->screen_2.button_1_copy_button_1_label = lv_label_create(ui->screen_2.button_1_copy);
@@ -87,6 +87,23 @@ void setup_screen_2(gg_ui_t * ui)
     lv_obj_set_x(ui->screen_2.button_1_copy_button_1_label, 0);
     lv_obj_set_y(ui->screen_2.button_1_copy_button_1_label, 0);
     lv_label_set_text(ui->screen_2.button_1_copy_button_1_label, "return");
+
+    // Create button: ui->screen_2.button_3
+    ui->screen_2.button_3 = lv_button_create(ui->screen_2.screen);
+    lv_obj_set_width(ui->screen_2.button_3, 104);
+    lv_obj_set_height(ui->screen_2.button_3, 42);
+    lv_obj_set_align(ui->screen_2.button_3, LV_ALIGN_TOP_LEFT);
+    lv_obj_set_x(ui->screen_2.button_3, 12);
+    lv_obj_set_y(ui->screen_2.button_3, 111);
+
+    // Create label: ui->screen_2.button_3_button_3_label
+    ui->screen_2.button_3_button_3_label = lv_label_create(ui->screen_2.button_3);
+    lv_obj_set_width(ui->screen_2.button_3_button_3_label, LV_SIZE_CONTENT);
+    lv_obj_set_height(ui->screen_2.button_3_button_3_label, LV_SIZE_CONTENT);
+    lv_obj_set_align(ui->screen_2.button_3_button_3_label, LV_ALIGN_CENTER);
+    lv_obj_set_x(ui->screen_2.button_3_button_3_label, 0);
+    lv_obj_set_y(ui->screen_2.button_3_button_3_label, 0);
+    lv_label_set_text(ui->screen_2.button_3_button_3_label, "next");
 
     // screen_2 custom code
 
